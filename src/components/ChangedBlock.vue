@@ -30,7 +30,7 @@ export default {
     },
     data() {
         return {
-            colorList: ['#B4D8FF','#79BCFF','#2D71CF','#0F1114'],
+            colorList: ['#8698d0','#79BCFF','#2D71CF','#0F1114'],
         }
     },
     computed:{

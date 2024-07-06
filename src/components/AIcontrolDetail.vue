@@ -69,13 +69,9 @@ export default {
         }
     },
     created () {
-        this.role = this.global.roles[(JSON.parse(window.sessionStorage.getItem("user")))['role']]
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getaiparams()
     },
     mounted(){
-        this.role = this.global.roles[(JSON.parse(window.sessionStorage.getItem("user")))['role']]
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getaiparams()
     },
     methods: {

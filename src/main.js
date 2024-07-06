@@ -20,7 +20,7 @@ Vue.prototype.global = global
 import axios from 'axios'
 Vue.prototype.$http = axios
 
-// 引入导出excel的插件
+// 引入导出excel的插件，此处需要下载： npm install --save file-saver@2.0.5
 import FileSaver from 'file-saver'
 import * as XLSX from 'xlsx'
 Vue.prototype.$FileSaver = FileSaver; //设置全局
@@ -58,22 +58,44 @@ window.onresize = function() {
   setRem();
 };
 
-//钩子函数，访问路由前调用
-router.beforeEach((to, from, next) => {
-  //路由需要认证
-  if (to.meta.requireAuth) {
-    //判断store里是否有token
-    if (store.state.token) {
-      next()
-    }
-    else {
-      next({
-        path: '',
-        query: { redirect: to.fullPath }
-      })
-    }
-  }
-  else {
-    next()
-  }
-})
+// //钩子函数，访问路由前调用
+// router.beforeEach((to, from, next) => {
+//   //路由需要认证
+//   if (to.meta.requiresAuth) {
+//     //判断store里是否有token
+//     if (store.state.token) {
+//       next()
+//     }
+//     else {
+//       next({
+//         path: '/',
+//         query: { redirect: to.fullPath }
+//       })
+//     }
+//   }
+//   else {
+//     next()
+//   }
+// })
+
+// router.beforeEach((to, from, next) => {
+//   // 检查路由是否需要认证
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     // 这里使用 isAuthenticated 函数来检查认证状态
+//     if (!isAuthenticated()) {
+//       next({
+//         path: '/',
+//         query: { redirect: to.fullPath }  // 可选：登录后可以重定向回原页面
+//       });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next(); // 确保一定要调用 next()
+//   }
+// });
+
+// function isAuthenticated() {
+//   // 检查本地存储或cookie中的token
+//   return !!localStorage.getItem('token');
+// }

@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             ltdbackColor:['','#23282E','','#000000','#94290D','#A3700F'],
-            ltdcolorList: ['#B4D8FF','#FF0000','#040505','#4A4A4A','#60CFFF'],
+            ltdcolorList: ['#8698d0','#FF0000','#040505','#4A4A4A','#60CFFF'],
         }
     },
     props: {

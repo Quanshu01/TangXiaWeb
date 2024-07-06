@@ -11,8 +11,8 @@
                 </div>
                 <div class="hot-contents">
                     <div class="one-content-hot-s">
-                        <div class="content-pic-hot-s" style="background-color:#B4D8FF;"></div>
-                        <div class="content-text-hot-s" style="color:#B4D8FF;">低波动区</div>
+                        <div class="content-pic-hot-s" style="background-color:#8698d0;"></div>
+                        <div class="content-text-hot-s" style="color:#8698d0;">低波动区</div>
                     </div>
                     <div class="one-content-hot-s">
                         <div class="content-pic-hot-s" style="background-color:#79BCFF;"></div>
@@ -43,6 +43,9 @@ import BigLtdChanged from './BigLtdChanged.vue'
 import axios from 'axios';
 
 export default {
+    metaInfo: {
+        requiresAuth: true // 表示这个页面需要认证
+    },
     data() {
         return {
             timer:"",
@@ -57,59 +60,20 @@ export default {
         'changed-fwq':ChangedFwq
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.gethotpointrisk()
         this.getChange()
     },
     mounted(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.gethotpointrisk()
         this.getChange()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-        this.role = this.global.roles[(JSON.parse(window.sessionStorage.getItem("user")))['role']]
-        this.userName = (JSON.parse(window.sessionStorage.getItem("user")))['userName']
+
         this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
             this.gethotpointrisk()
             this.getChange()
         },82430)
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
+
         goBigLtdChanged(){
             this.$FModal.show(
                 { 
@@ -148,13 +112,9 @@ export default {
         toComfirm(){
             this.dialogChangeVisible=false
             const hContent = this.$createElement;
-            var coldDetectParams=[this.num,this.time]
-            var handleUser =[this.userName,this.role,this.systime.replace(/\//g, "-")]
-            var requestData = {
-                params: coldDetectParams, 
-                user: handleUser
-            };
-            axios.post(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/cold_detect_design",requestData,
+            this.postdata=[this.num,this.time]
+            // console.log(this.JFname+' JF cold_detect_design post this.postdata',this.postdata);
+            axios.post(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/cold_detect_design",this.postdata,
             {
                 headers:{
                     'token':window.sessionStorage.getItem("token")//

@@ -8,7 +8,7 @@ export default new Router({
         {
             path:'/',
             name: 'Login',
-            component: () => import( '@/views/login.vue')
+            component: () => import( '@/views/HomePage1.vue')
         },
         {
             path: '/home',
@@ -24,11 +24,6 @@ export default new Router({
                     component: () => import('../views/NowStatus.vue')
                 },
                 {
-                    path: '/fault-detect',
-                    name: 'fault-detect',
-                    component: () => import('../views/FaultDetect.vue')
-                },
-                {
                     path: '/hotpoint-risk',
                     name: 'hotpoint-risk',
                     component: () => import('../views/HotPointRisk.vue')
@@ -38,11 +33,6 @@ export default new Router({
                     name: 'ltd-changed',
                     component: () => import( '../views/LtdChanged.vue')
                 },
-                {
-                    path: '/pre-control',
-                    name: 'pre-control',
-                    component: () => import( '../views/PreControl.vue')
-                }
             ],
         },
     ]

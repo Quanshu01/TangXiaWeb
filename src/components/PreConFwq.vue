@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import preConKt from './preConKt.vue';
 import LtdTemp from '../components/LtdTemp.vue'
 export default {
@@ -68,62 +69,38 @@ export default {
         'ltd-temp':LtdTemp,
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         getpreConltdwd(){
-            this.ktChangedValue=this.$store.state.ktChangedValue;
-            this.ktChangedSFValue=this.$store.state.ktChangedSFValue;
-            this.preltdmax=this.$store.state.preltdmax;
-            this.ifprecmd=this.$store.state.ifprecmd;
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/precmd",{
+                headers:{
+                    'token':window.sessionStorage.getItem("token")
+                },
+            }).then(
+            Response=>{
+                // console.log('axios precmd',Response.data)
+                this.ktChangedValue=Object.values(Response.data[0]['kt']['hf'])
+                this.ktChangedSFValue=Object.values(Response.data[0]['kt']['sf'])
+                this.preltdmax=Object.values(Response.data[1]['server'])
+                // console.log('precon this.ktChangedValue',this.ktChangedValue)
+                // console.log('precon this.ktChangedSFValue',this.ktChangedSFValue)
+                // console.log('precon this.preltdmax',this.preltdmax)
+                this.ifprecmd = false
+            }),
+            Error=>{
+                console.log('axios precmd error',Error)
+            }
         },
         getktdata() {
             this.ktdataall=this.$store.state.ktdataall;
         }
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getktdata()
         this.getpreConltdwd()
     },
     mounted(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getktdata()
         this.getpreConltdwd()
         this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
             this.getktdata()
             this.getpreConltdwd()
         },87184)

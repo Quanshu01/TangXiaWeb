@@ -23,11 +23,6 @@ export default {
                     to: "/now-status",
                 },
                 {
-                    class: "fault-detect",
-                    value: "设备异常诊断",
-                    to: "/fault-detect",
-                },
-                {
                     class: "hotpoint-risk",
                     value: "热点风险显示",
                     to: "/hotpoint-risk",
@@ -37,15 +32,9 @@ export default {
                     value: "冷通道波动显示",
                     to: "/ltd-changed",
                 },
-                {
-                    class: "pre-control",
-                    value: "AI 策略显示",
-                    to: "/pre-control",
-                },
             ],
             imgs: [
                 {url: require('../assets/dataanalysis.png'), link: '/now-status'},
-                {url: require('../assets/dataanalysis.png'), link: '/fault-detect'},
             ]
         }
     },
@@ -53,7 +42,6 @@ export default {
         // 侦听路由选中
         $route(to) {
             this.selectPath = to.path;
-            // console.log('to.path',to.path)
         },
     },
     methods: {

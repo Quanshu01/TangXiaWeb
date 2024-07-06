@@ -92,7 +92,7 @@ export default {
 .ai-pre{
   margin:1.6vh 0;
   width: 100%;
-  height: 100%;
+  height: 98%;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 1rem;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)

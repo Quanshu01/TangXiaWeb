@@ -5,13 +5,10 @@ module.exports = defineConfig({
 })
 
 module.exports = {
+  lintOnSave:false,
   configureWebpack: {
     // 配置 Webpack 插件
     plugins: [
     ]
-  },
-  devServer: { 
-    // disableHostCheck: true 
-    allowedHosts: "all",
   }
 }

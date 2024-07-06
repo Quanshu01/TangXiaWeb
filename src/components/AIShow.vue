@@ -1,26 +1,26 @@
 <template>
     <div class="ai-show">
+        <title-top name="运行状态"
+                content="目前系统运行状态">
+        </title-top>
         <div class="box-card-scroll-1">
-            <div class="display-data">
-                <el-tooltip class="item" effect="light" :content=displayKeyContent[0] placement="top-start">
-                    <span class="display-value"><i class="el-icon-warning-outline"></i>{{ disKey[0] }}</span>
+            <div  class="display-data" v-for="n in aidataValue.length" :key="n.index">
+                <el-tooltip class="item" effect="light" :content=displayKeyContent[n-1] placement="top-start">
+                    <span class="display-value">
+                        <i class="el-icon-warning-outline"></i>
+                        {{ disKey[n-1] }}
+                    </span> : 
                 </el-tooltip>
+                <div class="display-key" v-if="datatrue1">{{ aidataValue[n-1] }}</div>
             </div>
-                <div v-if="datatrue1"><div>{{ displayValue[0] }}</div></div>
-                <el-tooltip class="item" effect="light" :content=displayKeyContent[1] placement="top-start">
-                    <span class="display-value"><i class="el-icon-warning-outline"></i>{{ disKey[1] }}</span>
-                </el-tooltip>
-                <div class="display-key1" v-if="datatrue1"><div class="scrolling-content">{{ displayValue[1] }}</div></div>
-                <el-tooltip class="item" effect="light" :content=displayKeyContent[2] placement="top-start">
-                    <span class="display-value"><i class="el-icon-warning-outline"></i>{{ disKey[2] }}</span>
-                </el-tooltip>
-                <div v-if="datatrue1"><div>{{ displayValue[2] }}</div></div>
-            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import TitleTop from '@/components/TitleTop.vue';
+
 export default {
     name: "AIStatus",
     data(){
@@ -28,85 +28,73 @@ export default {
             display:{},
             displayValue:[],
             displayKey:[],
-            disKey:['AI启停状态', '机房状态', 'AI触发模块'],
-            displayKeyContent:['目前AI控制真实状态（开启/关闭）','目前机房热点情况（无热点/服务器X出现热点）','目前 AI所处状态（关闭/群控/预控/保底）'],
+            disKey:['AI启停状态', '机房状态'],
+            displayKeyContent:['目前AI控制真实状态（开启/关闭）','目前机房热点情况（无热点/服务器X出现热点）'],
             paramsdatas:{},
+            aidata:{},
             aiKey:['AI群控 扑灭实际热点', '热点预测准确率', '机房冷通道最高温度'],
             aidataKey:[],
             aidataValue:[],
-            datatrue1:false,
+            datatrue1:true,
+            displayStatus:[
+                {
+                    "Content": "AI启停状态",
+                    "Detail": '开启'
+                },
+                {
+                    "Content": "机房状态",
+                    "Detail": '无热点'
+                },
+            ]
         }
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getaidisplay()
-
     },
     mounted(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getaidisplay()
 
-        this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-            this.getaidisplay()
-        },20000)
+        // this.timer=setInterval(()=>{
+        //     this.getaidisplay()
+        // },2000)
+    },
+    components: {
+        'title-top':TitleTop,
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         getaidisplay(){
-            axios.get(this.global.apiURL+'6703'+"/jf703/aidisplay",
+            console.log("Display Temp Length:", this.displayStatus.length);
+
+            // 初始化 aidata
+            this.aidata = {};
+            for (let i = 0; i < this.displayStatus.length; i++) {
+                const item = this.displayStatus[i];
+                this.aidata[item.Content] = item.Detail;
+            }
+
+            // 处理 aidataKey 和 aidataValue 的值
+            this.aidataKey = Object.keys(this.aidata);
+            this.aidataValue = Object.values(this.aidata);
+
+            console.log("aidataKey:", this.aidataKey);
+            console.log("aidataValue:", this.aidataValue);
+
+            // 设置 datatrue1 为 true 表示数据已加载
+            this.datatrue1 = true;
             // axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/aidisplay",
-            {
-                headers:{
-                    'token':window.sessionStorage.getItem("token")
-                },
-            }).then(
-                Response=>{
-                    this.datatrue1 = true
-                    this.display = Response.data
-                    this.displayKey=Object.keys(Response.data)
-                    this.displayValue=Object.values(Response.data)
-                    console.log('this.displayKey',this.displayKey)
-                    console.log('this.displayValue',this.displayValue)
-                    console.log('this.displayKey.length',this.displayKey.length)
-                },
-                Error=>{
-                    console.log('axios aidisplay error',Error.message)
-                });
+            // {
+            //     headers:{
+            //         'token':window.sessionStorage.getItem("token")
+            //     },
+            // }).then(
+            //     Response=>{
+            //         this.display = Response.data
+            //         this.displayKey=Object.keys(Response.data)
+            //         this.displayValue=Object.values(Response.data)
+            //     },
+            //     Error=>{
+            //         console.log('axios aidisplay error',Error.message)
+            //     });
         },
     },
 }
@@ -130,56 +118,24 @@ export default {
 }
 .box-card-scroll-1 {
     margin: 0 3%;
-    height:22vh;
+    height:18vh;
     width:96%;
-    border-radius: 0.6rem; 
+    border-radius: 0.8rem; 
     font-size:0.8rem;
     display: grid;
     align-items: center;
     justify-content: center;
     overflow-y: scroll;
 }
-.box-card-scroll-2 {
-    margin: 1vh 3%;
-    height:14vh;
-    width:96%;
-    border-radius: 0.6rem; 
-    font-size:0.8rem;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    overflow-y: hidden;
-}
 .display-data{
-    padding:0.1rem 0 0.1rem 0;
+    padding:0.2rem 0 0.2rem 0;
 }
 .display-value{
     font-size: 0.8rem;
     font-weight: 800;
 }
-.display-key{
+.display-key-ai{
     color:gray;
-    font-size: 0.7rem;
-    overflow-y: scroll;
-    height:2rem;
-}
-.display-key1{
-    overflow-y: scroll;
-    height:3rem;
-    align-items: center;
-    justify-content: center;
-    overflow-y: scroll;
-    /* width: 13rem; */
-}
-.scrolling-content {
-  animation: scrollText 30s linear infinite;
-}
-@keyframes scrollText {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
+    font-size: 0.8rem;
 }
 </style>

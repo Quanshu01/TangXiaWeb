@@ -36,10 +36,14 @@
 </template>
 
 <script>
+import axios from 'axios';
 import HotFwq from '@/components/HotFwq.vue';
 import BigHotPointRisk from './BigHotPointRisk.vue';
 export default {
     name: "HotPointRisk",
+    metaInfo: {
+        requiresAuth: true // 表示这个页面需要认证
+    },
     data() {
         return {
             timer:"",
@@ -51,56 +55,34 @@ export default {
         'hot-fwq':HotFwq
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.gethotpointrisk()
     },
     mounted(){
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-        this.changeJFinfo()
         this.gethotpointrisk()
 
         this.timer=setInterval(()=>{
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-            this.changeJFinfo()
             this.gethotpointrisk()
         },70743)
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         gethotpointrisk(){
-            this.hotpointriskall=this.$store.state.hotpointriskalldata;
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/riskdatanew0216",{
+                headers:{
+                    'token':window.sessionStorage.getItem("token")
+                },
+            }).then(
+            Response=>{
+                // console.log('axios riskdatanew0216',Response.data)
+                this.hotpointriskall=[]
+                for(var i=0;i<this.fwqlist.length;i++){
+                    var fwqTop = Response.data[0][this.fwqlist[i]]['up']
+                    var fwqBottom = Response.data[0][this.fwqlist[i]]['down']
+                    this.hotpointriskall.push([Object.values(fwqTop),Object.values(fwqBottom)])
+                }
+            },
+            Error=>{
+                console.log('axios riskdatanew0216 error',Error)
+            });
         },
         goBigHotPointRisk(){
             this.$FModal.show(

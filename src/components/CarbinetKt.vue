@@ -1,51 +1,44 @@
 <template>
     <div class="carbinet-kt">
-        <div class="carbinet-kt-name">空调{{ ifLeft ? JF[ktId-1].carbinetLeftIndex : JF[ktId-1].carbinetRightIndex }}
+        <div class="carbinet-kt-name">空调{{ ktId }}
         </div>
         <div class="carbinet-kt-params">
-            <div v-for="(value,key) in values" :key='key'>
+            <div v-for="(value, key) in values" :key="key" class="carbinet-kt-param-item">
                 {{ key }} : {{ value }}
             </div>
         </div>
     </div>
 </template>
 
-
 <script>
 export default {
-    props:{
-        ktId:{},
-        values:{},
-        ifLeft:{},
+    props: {
+        ktId: {},
+        values: {},
     },
-    created(){
-        this.JF=this.global.JF703
-        console.log('this.values',this.values)
+    mounted() {
+        console.log('this.values', this.values);
     },
     data() {
-        return {
-            JF:[],
-        }
+        return {};
     },
 }
 </script>
 
-
 <style>
-.carbinet-kt{
+.carbinet-kt {
     background-color: #dedede;
     width: 100%;
-    height:100%;
+    height: 100%;
     display: flex;
     justify-content: center;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     align-items: center;
-    flex-direction: column; 
+    flex-direction: column;
 }
 .carbinet-kt-name{
     height:25%;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     padding: 0 0 0.1rem 0rem;
     font-weight: 600;
     display: flex;
@@ -53,15 +46,25 @@ export default {
     align-items: center;
     padding: 0.2rem 0 0.2rem 0rem;
 }
-.carbinet-kt-params{
-    height:90%;
-    width: 90%;
+.carbinet-kt-params {
+    height: 100%;
+    width: 7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     zoom: 0.8;
     font-weight: 400;
     padding: 0 0 0.2rem 0rem;
     color: #2c3e50;
-    overflow-y: scroll;
+}
+
+.carbinet-kt-param-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 </style>

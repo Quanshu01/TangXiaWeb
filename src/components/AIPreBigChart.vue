@@ -65,8 +65,6 @@ export default {
             this.$echarts.init(this.$refs.chart5)
         },200000)
         this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         },68107)
         this.chart.dispatchAction({
             type: 'hideTip'
@@ -77,8 +75,6 @@ export default {
         })
     },
     created(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
 
         var postAIpreParams=[[['server','power',this.FWQ],this.chosenTime.slice(0,2)],
                                 [['server','ltdwdmax',this.FWQ],this.chosenTime.slice(0,2)],
@@ -107,38 +103,6 @@ export default {
         }
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         postData(postAIpreParam,n,i){
             axios.
                 post(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/preshow",postAIpreParam,
@@ -553,9 +517,9 @@ export default {
                         data: DATA['ltdwdavg'][0],
                         name:'预测值',
                         lineStyle: {
-                            color:'#93ACBB',
+                            color:'#b5c5dc',
                         },
-                        color:'#93ACBB',
+                        color:'#b5c5dc',
                         type: 'line'
                     },
                     {

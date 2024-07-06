@@ -1,7 +1,7 @@
 <template>
     <el-table class="aicommand-table" :data="cmddata" size="mini" height="100%"
         border stripe style="width: 100%" header-align="center" ref="filterTable">
-        <el-table-column
+        <!-- <el-table-column
             prop="command"
             label="指令"
             width="106"
@@ -14,7 +14,7 @@
                     disable-transitions effect="light">{{scope.row.command}}
                 </el-tag>
             </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
             prop="kt"
             label="空调"
@@ -23,12 +23,12 @@
         <el-table-column
             prop="detail"
             label="详情"
-            width="160">
+            width="140">
         </el-table-column>
         <el-table-column
             prop="time"
             label="时间"
-            width="100">
+            width="">
         </el-table-column>
     </el-table>
 </template>
@@ -44,12 +44,10 @@ export default {
         }
     },
     created () {
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getaicmddata()
     },
     mounted(){
         this.timer=setInterval(()=>{
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
             this.getaicmddata()
         },86977)
     },
@@ -58,8 +56,7 @@ export default {
             return row.command === value;
         },
         getaicmddata(){
-            axios.get(this.global.apiURL+'6703'+"/jf703/aicmd",
-            // axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/aicmd",
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/aicmd",
             {
                 headers:{
                     'token':window.sessionStorage.getItem("token")
@@ -70,12 +67,12 @@ export default {
 
                     this.cmddata=[]
                     for(var i=0;i<Response.data.length;i++){
-                        var temp={ command:Response.data[i].commandType,
-                                    kt:Response.data[i].equipment,
-                                    detail:Response.data[i].commandContent+Response.data[i].changedValue+"°C",
+                        var temp={ command:Response.data[i].CommandType,
+                                    kt:Response.data[i].Equipment,
+                                    detail:Response.data[i].CommandContent+Response.data[i].ChangedValue+"°C",
                                     time:Response.data[i].time }
                         // 保底指令修改获取频率
-                        if(Response.data[i].commandType=="保底控制"){
+                        if(Response.data[i].CommandType=="保底控制"){
                             this.ifHotPoint = true
                             // this.frequence = 3003 试图控制频率保底指令失败
                         }

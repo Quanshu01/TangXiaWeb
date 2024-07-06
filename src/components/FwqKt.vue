@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             kt_num:1,
-            backColor:['#B4D8FF','#E7E6E6','#2d2d2d']
+            backColor:['#8698d0','#E7E6E6','#2d2d2d']
         }
     },
 }

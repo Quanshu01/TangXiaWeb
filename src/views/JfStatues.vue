@@ -30,11 +30,6 @@ export default {
                     to: "/now-status",
                 },
                 {
-                    class: "fault-detect",
-                    value: "设备异常诊断",
-                    to: "/fault-detect",
-                },
-                {
                     class: "hotpoint-risk",
                     value: "热点风险显示",
                     to: "/hotpoint-risk",
@@ -43,11 +38,6 @@ export default {
                     class: "ltd-changed",
                     value: "冷通道波动显示",
                     to: "/ltd-changed",
-                },
-                {
-                    class: "pre-control",
-                    value: "AI 策略显示",
-                    to: "/pre-control",
                 },
             ],
         }
@@ -65,7 +55,7 @@ export default {
 .jf-statues{
     margin: 0 0 0 0;
     width: 100%;
-    height: 56vh;
+    height: 86vh;
     background-color: rgba(255, 255, 255, 0.85);
     border-radius: 1rem;
     display: flex;
@@ -84,7 +74,7 @@ export default {
     background-color: antiquewhite;
 }
 .dashboard-title {
-    margin: 5vh 0 0 0;
+    margin: 6vh 10rem 0 10rem;
     width:100%;
     height: 4vh;
     display: flex;
@@ -124,6 +114,7 @@ export default {
     display: flex;
 }
 .click2JZ{
+    margin: 2rem;
     font-size: 0.8vw;
     width:8vw;
     height:4vh;

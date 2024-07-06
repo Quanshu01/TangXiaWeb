@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
     data() {
@@ -61,56 +62,18 @@ export default {
         }
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getfaultdata()
         this.setfwqList()
     },
     mounted(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getfaultdata()
         this.setfwqList()
         this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
             this.getfaultdata()
             this.setfwqList()
         },83789)
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         filterTag(value, row) {
             return row.params === value;
         },
@@ -128,7 +91,29 @@ export default {
             }
         },
         getfaultdata(){
-            this.faultdata=this.$store.state.faultdata;
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/server_diagnosis",
+            {
+                headers:{
+                    'token':window.sessionStorage.getItem("token")
+                },
+            }).then(
+                Response=>{
+                    // console.log('axios server_diagnosis',Response.data)
+                    this.faultdata=[]
+                    for(var i=0;i<Response.data.length;i++){
+                        var temp = Response.data[i]
+                        var tempTabledata = {}
+                        tempTabledata['params']=temp['PointName']
+                        tempTabledata['fwq']=temp['Equipment'].slice(3,4)
+                        tempTabledata['detail']=temp['Value0']
+                        tempTabledata['cite']=temp['SiteName']
+                        this.faultdata.push(tempTabledata)
+                    }
+                },
+                Error=>{
+                    console.log('axios server_diagnosis error',Error)
+                }
+            );
         },
     },
 }

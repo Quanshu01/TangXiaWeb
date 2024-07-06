@@ -1,11 +1,9 @@
 <template>
     <div class="now-status">
         <div class="fwdNkt">
-                <div class="now-fwqs">
-                    <div class="now-fwq" v-for="n in 5" :key="n">
-                        <micro-module :micronIdNum="n"></micro-module>
-                     </div>   
-                </div>
+            <div class="now-fwqs">
+                    <micro-module></micro-module>
+            </div>
         </div>
     </div>
 </template>
@@ -28,56 +26,18 @@ export default {
         'micro-module':MicroModule
     },
     created () {
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getktdata()
         this.getfwqall()
     },
     mounted(){
-        this.changeJFinfo()
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
         this.getktdata()
         this.getfwqall()
         this.timer=setInterval(()=>{
-            this.changeJFinfo()
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
             this.getktdata()
             this.getfwqall()
         },74769)
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         goBigNowStatus(){
             this.$FModal.show(
                 { 
@@ -126,14 +86,14 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width:100%;
-    height:100%;
+    width:98%;
+    height: 96%;
 }
 .now-fwq{
     display: flex;
     justify-content: center;
     align-items: center;
-    width:20%;
+    width:14%;
     height: 100%;
 }
 .now-contents{
@@ -168,20 +128,5 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.label-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 22vw;
-  margin-right: 22vw;
-  margin-bottom: -2vw;
-}
-.label {
-  color: #788dcb;
-  font-weight: 600;
-  font-size: 2rem;
-  margin: 0 9.5vw 0 9.5vw;
-  text-shadow: 1px 1px 0 #2c3e50;
 }
 </style>

@@ -54,6 +54,11 @@
                 <!-- 大图 服务器左列 -->
                 <el-tooltip class="item" effect="dark" content="冷通道温度" placement="top" v-if="ltdNum===2">
                     <div class="fwq-ltdwd">
+                        <!-- <div class="top-ltd">
+                            <div v-for="n in realtimefwqltdwdbig[JF[fwqId-1].fwdLeftindex][0].length" :key="n.index">
+                                <ltd-temp :index=true :ltdData=n :fontSize=0.3 :ifsmall="false" :pic="0.3"></ltd-temp>
+                            </div>
+                        </div> -->
 
                         <!-- 大图 服务器左列 冷通道温度上列 -->
                         <div class="top-ltd">
@@ -74,6 +79,11 @@
                             </div>
                         </div>
 
+                        <!-- <div class="top-ltd">
+                            <div v-for="n in realtimefwqltdwdbig[JF[fwqId-1].fwdLeftindex][0].length" :key="n.index">
+                                <ltd-temp :index=true :ltdData=n :fontSize=0.3 :ifsmall="false" :pic="0.3"></ltd-temp>
+                            </div>
+                        </div> -->
                     </div>
                 </el-tooltip>
             </div>
@@ -91,6 +101,11 @@
                 <!-- 大图 服务器右列 -->
                 <el-tooltip class="item" effect="dark" content="冷通道温度" placement="top" v-if="ltdNum===2">
                     <div class="fwq-ltdwd">
+                        <!-- <div class="top-ltd">
+                            <div v-for="n in realtimefwqltdwdbig[JF[fwqId-1].fwdrightindex][0].length" :key="n.index">
+                                <ltd-temp :index=true :ltdData=n :fontSize=0.3 :ifsmall="false" :pic="0.3"></ltd-temp>
+                            </div>
+                        </div> -->
                         
                         <!-- 大图 服务器右列 冷通道温度上列 -->
                         <div class="top-ltd">
@@ -111,6 +126,11 @@
                             </div>
                         </div>
 
+                        <!-- <div class="top-ltd">
+                            <div v-for="n in realtimefwqltdwdbig[JF[fwqId-1].fwdrightindex][0].length" :key="n.index">
+                                <ltd-temp :index=true :ltdData=n :fontSize=0.3 :ifsmall="false" :pic="0.3"></ltd-temp>
+                            </div>
+                        </div> -->
                     </div>
                 </el-tooltip>
             </div>
@@ -150,7 +170,7 @@ import FwqKt from './FwqKt.vue'
 import LtdTemp from '../components/LtdTemp.vue'
 import RtdTemp from '../components/RtdTemp.vue'
 import Power from '../components/PowerData.vue'
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
     name: "Fwq",
@@ -177,81 +197,80 @@ export default {
         'power':Power,
     },
     mounted(){
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-        this.changeJFinfo()
         this.getktdata()
         this.getfwqall()
         this.timer=setInterval(()=>{
-            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-            this.changeJFinfo()
             this.getktdata()
             this.getfwqall()
         },84441)
     },
     created () {
-        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
-        this.changeJFinfo()
         this.getktdata()
         this.getfwqall()
     },
     methods:{
-        changeJFinfo(){
-            if(this.JFname=="201"){
-                this.JF=this.global.JF201
-                this.fwqlist=this.global.JF201FWQlist
-                this.fwqdoublelist=this.global.JF201FWQ
-                this.JFktNum=this.global.JF201KTnum
-            }
-            if(this.JFname=="202"){
-                this.JF=this.global.JF202
-                this.fwqlist=this.global.JF202FWQlist
-                this.fwqdoublelist=this.global.JF202FWQ
-                this.JFktNum=this.global.JF202KTnum
-            }
-            if(this.JFname=="203"){
-                this.JF=this.global.JF203
-                this.fwqlist=this.global.JF203FWQlist
-                this.fwqdoublelist=this.global.JF203FWQ
-                this.JFktNum=this.global.JF203KTnum
-            }
-            if(this.JFname=="204"){
-                this.JF=this.global.JF204
-                this.fwqlist=this.global.JF204FWQlist
-                this.fwqdoublelist=this.global.JF204FWQ
-                this.JFktNum=this.global.JF204KTnum
-            }
-            if(this.JFname=="205"){
-                this.JF=this.global.JF205
-                this.fwqlist=this.global.JF205FWQlist
-                this.fwqdoublelist=this.global.JF205FWQ
-                this.JFktNum=this.global.JF205KTnum
-            }
-        },
         getktdata(){
-            this.ktdataall=this.$store.state.ktdataall;
-            // axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/ktnew",{
-            //     headers:{
-            //         'token':window.sessionStorage.getItem("token")
-            //     },
-            // }).then(
-            //     Response=>{
-            //         this.ktdataall=Response.data[0]['机房空调']
-            //         // 提交 mutation 将数据保存到 Vuex store
-            //         this.$store.commit('SET_KTDATAALL', this.ktdataall);
-            //     },
-            //     Error=>{
-            //         console.log('axios ktnew error',Error)
-            //     }
-            // );
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/ktnew",{
+                headers:{
+                    'token':window.sessionStorage.getItem("token")
+                },
+            }).then(
+                Response=>{
+                    this.ktdataall=Response.data[0]['机房空调']
+                    // 提交 mutation 将数据保存到 Vuex store
+                    this.$store.commit('SET_KTDATAALL', this.ktdataall);
+                },
+                Error=>{
+                    console.log('axios ktnew error',Error)
+                }
+            );
         },
         getfwqall(){
-            this.realtimefwqltdwdsmall=this.$store.state.realtimefwqltdwdsmall;
-            this.realtimefwqltdwdbig=this.$store.state.realtimefwqltdwdbig;
-            this.realtimefwqrtdwdsmall=this.$store.state.realtimefwqrtdwdsmall;
-            this.realtimefwqrtdwdbig=this.$store.state.realtimefwqrtdwdbig;
-            this.fwqltdwdDownMaxIndex=this.$store.state.fwqltdwdDownMaxIndex;
-            this.fwqltdwdUpMaxIndex=this.$store.state.fwqltdwdUpMaxIndex;
-            this.realtimefwqpower=this.$store.state.realtimefwqpower;
+            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/realdata/servernew",{
+                headers:{
+                    'token':window.sessionStorage.getItem("token")
+                },
+            }).then(
+                Response=>{
+                    // console.log('axios servernew',Response.data)
+                    this.realtimefwqltdwdsmall=[]
+                    this.realtimefwqltdwdbig=[]
+                    this.realtimefwqrtdwdsmall=[]
+                    this.realtimefwqrtdwdbig=[]
+                    this.fwqltdwdDownMaxIndex=[]
+                    this.fwqltdwdUpMaxIndex=[]
+                    this.realtimefwqpower=[]
+
+                    // 机组实时状态 冷通道温度/热通道温度 大图小图数据获取
+                    for(var j=0;j<(Object.keys(Response.data[0]['servercold']).length);j++){
+                        // 机组实时状态 冷通道温度 小图数据获取
+                        this.realtimefwqltdwdsmall.push(Object.values(Response.data[0]['servercold'][this.fwqlist[j]]['avg']))
+                        // 机组实时状态 热通道温度 小图数据获取
+                        this.realtimefwqrtdwdsmall.push(Object.values(Response.data[0]['serverhot'][this.fwqlist[j]]['avg']))
+
+                        // 机组实时状态 冷通道温度 大图数据获取
+                        var realtimefwqltdwd=Response.data[0]['servercold'][this.fwqlist[j]]['sitedetail']
+                        this.realtimefwqltdwdbig.push([Object.values(realtimefwqltdwd['up']),Object.values(realtimefwqltdwd['down'])])
+                        // 机组实时状态 热通道温度 大图数据获取
+                        this.realtimefwqrtdwdbig.push(Object.values(Response.data[0]['serverhot'][this.fwqlist[j]]['sitedetail']))
+
+                        // 机组实时状态 冷通道温度 大图 最大次大值数据获取
+                        this.fwqltdwdDownMaxIndex.push([realtimefwqltdwd['cold_down_max_index'],realtimefwqltdwd['cold_down_submax_index']])
+                        this.fwqltdwdUpMaxIndex.push([realtimefwqltdwd['cold_up_max_index'],realtimefwqltdwd['cold_up_submax_index']])
+                    }
+                    // 机组实时状态 服务器功率 大小图数据获取
+                    this.realtimefwqpower=Object.values(Response.data[0]['serverpower'])
+
+                    // 提交 mutation 将数据保存到 Vuex store
+                    this.$store.commit('SET_SERVERNEW', this.realtimefwqltdwdsmall,
+                    this.realtimefwqltdwdbig, this.realtimefwqrtdwdsmall, this.realtimefwqrtdwdbig, 
+                    this.fwqltdwdDownMaxIndex, this.fwqltdwdUpMaxIndex, this.realtimefwqpower);
+                    
+                },
+                Error=>{
+                    console.log('axios servernew error',Error)
+                }
+            );
         },
     },
 }
@@ -322,7 +341,7 @@ export default {
     display:grid;
 }
 .mid-fwq{
-    background-color: #93acbb;
+    background-color: #b5c5dc;
     width:8%;
     height:100%;
     display: grid;

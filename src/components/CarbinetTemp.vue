@@ -2,11 +2,13 @@
     <div class="carbinet-temperature">
         <!--左列温度-->
         <div v-if="ifleft" class="single-temp">
+            <img src="@/assets/icons/cold_thermometer.svg" class="carbinet-temp-icon"/>
             <div class="carbinet-tem-num" >{{ carbinetdData }}°C </div>
         </div>
         <!--右列温度-->
         <div v-else class="single-temp">
             <div class="carbinet-tem-num" >{{ carbinetdData }}°C </div>
+            <img src="@/assets/icons/cold_thermometer.svg" class="carbinet-temp-icon"/>
         </div>
     </div>
 </template>
@@ -39,18 +41,18 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 .carbinet-tem-num{
-    /* color:#3b5298; */
     color:#8698d0;
     font-weight: 600;
     zoom: 0.8;
-    font-size: 0.75rem; 
+    font-size: 1.3rem; 
     font-weight: 600; 
 
 }
 .carbinet-temp-icon{
-    width:1.6vw;
-    height:2.2vh;
+    width:2vw;
+    height:2.5vh;
 }
 </style>
