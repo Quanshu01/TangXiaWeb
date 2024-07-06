@@ -1,15 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+      <router-view/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  mounted() {
+    setTimeout(function() {
+        location.reload() //登陆成功页面整体刷新一下
+    },3600000)
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalId); // 在组件销毁前清除定时器
   }
 }
 </script>
@@ -21,6 +25,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+}
+
+body {
+  background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
+  background-blend-mode: screen;
+  overflow: auto;
+  -webkit-text-size-adjust:none;
+  scrollbar-width: none;
+  margin: 0;
+  padding: 0;
+  width:100vw;
 }
 </style>

@@ -1,0 +1,184 @@
+<template>
+    <div id="big-data-analysis">
+        <div class="bigscreen-top">
+            <div></div>
+            <div class="bigscreen-title-info">
+                <div class="bigscreen-title-name">
+                    评估系统
+                </div>
+                <div class="bigscreen-title-text">
+                    {{JFname}}机房 AI运行中及运行后机房参数记录及评估
+                </div>
+            </div>
+            <div>
+                <div class="bigscreen-close">
+                    <el-tooltip class="close-button" effect="light" content="关闭大图" placement="top">
+                        <i @click="closeModal" class="el-icon-close"></i>
+                    </el-tooltip>
+                </div>
+            </div>
+
+        </div>
+        <div class="choose-kt">
+
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+export default {
+    components:{
+    },
+    data(){
+        return{
+            
+        }
+    },
+    created(){
+        this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
+        this.changeJFinfo()
+    },
+    mounted(){
+        this.timer=setInterval(()=>{
+            this.JFname = parseInt((window.sessionStorage.getItem("room")).replace(/"/g, ""))
+            this.changeJFinfo()
+        },81727)
+    },
+    methods:{
+        changeJFinfo(){
+            if(this.JFname=="201"){
+                this.JF=this.global.JF201
+                this.fwqlist=this.global.JF201FWQlist
+                this.fwqdoublelist=this.global.JF201FWQ
+                this.JFktNum=this.global.JF201KTnum
+            }
+            if(this.JFname=="202"){
+                this.JF=this.global.JF202
+                this.fwqlist=this.global.JF202FWQlist
+                this.fwqdoublelist=this.global.JF202FWQ
+                this.JFktNum=this.global.JF202KTnum
+            }
+            if(this.JFname=="203"){
+                this.JF=this.global.JF203
+                this.fwqlist=this.global.JF203FWQlist
+                this.fwqdoublelist=this.global.JF203FWQ
+                this.JFktNum=this.global.JF203KTnum
+            }
+            if(this.JFname=="204"){
+                this.JF=this.global.JF204
+                this.fwqlist=this.global.JF204FWQlist
+                this.fwqdoublelist=this.global.JF204FWQ
+                this.JFktNum=this.global.JF204KTnum
+            }
+            if(this.JFname=="205"){
+                this.JF=this.global.JF205
+                this.fwqlist=this.global.JF205FWQlist
+                this.fwqdoublelist=this.global.JF205FWQ
+                this.JFktNum=this.global.JF205KTnum
+            }
+        },
+        closeModal: function () {
+            this.$FModal.hide();
+        },
+    },
+
+}
+</script>
+
+<style>
+#big-data-analysis{
+    padding:1rem 2rem 1rem 0;
+    height: 93vh;
+    width:100%;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.bigscreen-top{
+    width:97%;
+    padding:0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.bigscreen-title-info{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding:0.6% 3%;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+}
+.bigscreen-title-name{
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+.bigscreen-title-text{
+    font-size: 0.8rem;
+    font-weight: 300;
+    color:grey;
+}
+.bigscreen-close{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    height:60%;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+}
+.close {
+    padding:1rem 1rem 0 1rem;
+    width:96%;
+    height:10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.choose-data-dy{
+    display: flex;
+    height:5vh;
+    width:90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.choose-kt{
+    display:grid;
+    place-items: center;
+    height:4vh;
+    width:96vw;
+}
+.ana-click2kt{
+    font-size:0.6vw;
+    padding:0.5vh 0.5vw;
+}
+.ai-now{
+    height:50%;
+    width:100%;
+    background-color:azure;
+    display: block;
+}
+.chose-fwqicon{
+    height:8vh;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ai-after{
+    height:30%;
+    width:100%;
+    background-color:aliceblue;
+}
+.kt-chart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:72vh;
+    width:100%;
+    padding:0 1rem;
+}
+</style>
