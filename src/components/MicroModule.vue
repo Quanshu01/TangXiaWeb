@@ -3,84 +3,111 @@
        <div class="micromodule-main">
             <!-- 左侧空调-->
             <div class="carbinet-left-temps">
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
-                    <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[0][n-1] :ifleft=true></carbinet-temp>
-                    </keep-alive>
+                <div class="carbinet-left-temp" v-for="(index, n) in displayOrderA" :key="n">
+                        <keep-alive>
+                            <!--后门上-->
+                            <el-tooltip class="item" effect="light" content="后门上" placement="top-start">
+                                <carbinet-temp class="carbinet-temps-up"
+                                    v-if="index!==-1"
+                                    :carbinetdData="filteredData(displayOrderA[n])[0]"
+                                    :ifleft="true"
+                                ></carbinet-temp>
+                            </el-tooltip>
+                        </keep-alive>
+                        <keep-alive>
+                            <!--后门中-->
+                            <el-tooltip class="item" effect="light" content="后门中" placement="top-start">
+                                <carbinet-temp class="carbinet-temps-mid"
+                                    v-if="index!==-1"
+                                    :carbinetdData="filteredData(displayOrderA[n])[1]"
+                                    :ifleft="true"
+                                ></carbinet-temp>
+                            </el-tooltip>
+                        </keep-alive>
                 </div>
                 <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[0][0] :ktId=ktId[0]></carbinet-kt>         
                 </div>
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
-                    <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[1][n-1] :ifleft=true></carbinet-temp>
-                    </keep-alive>
-                </div>
             </div>
             <div class="carbinetNkt">
                 <div class="carbinet-name-left">A</div>
-
-                <div class="carbinet-serve" v-for="n in 5" :key="n.index">
+                <div class="carbinet-serve" v-for="(index, n) in displayOrderA" :key="n">
                     <keep-alive>
-                        <carbinet :carbinetId=carbinetName[n-1] :carbinetInfo=carbinetktdata[0][2] :ktId=ktId[0]></carbinet>
+                        <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name" :carbinetInfo=carbinetktdata[0][2] :ktId=ktId[0]></carbinet>
                     </keep-alive>
                 </div>
             </div>
             <div class="carbinet-left-temps">
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
+                <div class="carbinet-left-temp" v-for="(index, n) in displayOrderA" :key="n">
                     <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[0][n-1] :ifleft=true></carbinet-temp>
+                        <el-tooltip  effect="light" content="前门下" placement="top-start">
+                            <carbinet-temp 
+                                v-if="index!==-1"
+                                :carbinetdData="filteredDataFront(displayOrderA[n])"
+                                :ifleft="true"
+                            ></carbinet-temp>
+                        </el-tooltip>
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[0][1] :ktId=ktId[0]></carbinet-kt>         
                 </div>
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
-                    <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[1][n-1] :ifleft=true></carbinet-temp>
-                    </keep-alive>
-                </div>
             </div>
+
+            <!-- 冷通道-->
             <div class="micromoduleLTD">
             </div>
 
             <!--右侧空调-->
             <div class="carbinet-right-temps">
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
+                <div class="carbinet-left-temp" v-for="(index, n) in displayOrderB" :key="n">
                     <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[2][n-1] :ifleft=true></carbinet-temp>
+                        <el-tooltip  effect="light" content="前门下" placement="top-start">
+                            <carbinet-temp 
+                                v-if="index!==-1"
+                                :carbinetdData="filteredDataFront(displayOrderB[n])"
+                                :ifleft="true"
+                            ></carbinet-temp>
+                        </el-tooltip>
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[1][1] :ktId=ktId[1]></carbinet-kt>         
                 </div>
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
-                    <keep-alive>ifleft
-                        <carbinet-temp :carbinetdData=carbinetserverdata[3][n-1] :ifleft=true></carbinet-temp>
-                    </keep-alive>
-                </div>
             </div>
             <div class="carbinetNkt">
                 <div class="carbinet-name-left">B</div>
-                <div class="carbinet-serve" v-for="n in 5" :key="n.index">
+                <div class="carbinet-serve" v-for="(index, n) in displayOrderB" :key="n">
                     <keep-alive>
-                        <carbinet :carbinetId=carbinetName[n-1] :carbinetInfo=carbinetktdata[1][2] :ktId=ktId[0]></carbinet>
+                        <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name" :carbinetInfo=carbinetktdata[1][2] :ktId=ktId[1]></carbinet>
                     </keep-alive>
                 </div>
             </div>
             <div class="carbinet-right-temps">
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
+                <div class="carbinet-left-temp" v-for="(index, n) in displayOrderB" :key="n">
                     <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[2][n-1] :ifleft=true></carbinet-temp>
+                        <!--后门上-->
+                            <el-tooltip  effect="light" content="后门上" placement="top-start">
+                                <carbinet-temp class="carbinet-temps-up"
+                                    v-if="index!==-1"
+                                    :carbinetdData="filteredData(displayOrderB[n])[0]"
+                                    :ifleft="true"
+                                ></carbinet-temp>
+                            </el-tooltip>
+                    </keep-alive>
+                    <keep-alive>
+                        <!--后门中-->
+                        <el-tooltip  effect="light" content="后门中" placement="top-start"></el-tooltip>
+                            <carbinet-temp class="carbinet-temps-mid"
+                                v-if="index!==-1"
+                                :carbinetdData="filteredData(displayOrderB[n])[1]"
+                                :ifleft="true"
+                            ></carbinet-temp>
+                        </el-tooltip>
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[1][0] :ktId=ktId[1]></carbinet-kt>         
-                </div>
-                <div class="carbinet-left-temp" v-for="n in carbinetserverdata.length/2" :key="n.index">
-                    <keep-alive>
-                        <carbinet-temp :carbinetdData=carbinetserverdata[3][n-1] :ifleft=true></carbinet-temp>
-                    </keep-alive>
                 </div>
             </div>
         </div>
@@ -99,9 +126,10 @@ export default{
             tempNum:2,
             carbinetNum:2,
             ktId:["A","B"],
-            carbinetName:["1","2","空调","3","4"],
             carbinetktdata:[],
             carbintserverdataValues:[],
+            displayOrderA: [3, 2, -1, 1, 0],
+            displayOrderB: [7, 6, -1, 5, 4]
         }
     },
     components:{
@@ -118,6 +146,7 @@ export default{
         this.getcarbintserverdata()
     },
     methods:{
+
         getcarbinetktdata(){
             this.carbinetktdata= [
                 [
@@ -155,9 +184,91 @@ export default{
             ]
         },
         getcarbintserverdata() {
-            this.carbinetserverdata = [1,2,3,4,5,6]
-        },        
-        
+            this.carbinetserverdata = [
+            {
+            name: 'A01机柜',
+            temperatures: [
+                { position: '后门上', value: 23.3 },
+                { position: '后门中', value: 23.5 },
+                { position: '前门下', value: 23.7 },
+            ],
+            },
+            {
+            name: 'A02机柜',
+            temperatures: [
+                { position: '后门上', value: 23.9 },
+                { position: '后门中', value: 24.1 },
+                { position: '前门下', value: 24.3 },
+            ],
+            },
+            {
+            name: 'A03机柜',
+            temperatures: [
+                { position: '后门上', value: 24.5 },
+                { position: '后门中', value: 24.7 },
+                { position: '前门下', value: 24.9 },
+            ],
+            },
+            {
+            name: 'A04机柜',
+            temperatures: [
+                { position: '后门上', value: 25.1 },
+                { position: '后门中', value: 25.3 },
+                { position: '前门下', value: 23.7 },
+            ],
+            },
+            {
+            name: 'A05机柜',
+            temperatures: [
+                { position: '后门上', value: 23.9 },
+                { position: '后门中', value: 24.1 },
+                { position: '前门下', value: 23.3 },
+            ],
+            },
+            {
+            name: 'A06机柜',
+            temperatures: [
+                { position: '后门上', value: 23.9 },
+                { position: '后门中', value: 24.9 },
+                { position: '前门下', value: 23.9 },
+            ],
+            },
+            {
+            name: 'A07机柜',
+            temperatures: [
+                { position: '后门上', value: 23.3 },
+                { position: '后门中', value: 24.1 },
+                { position: '前门下', value: 24.7 },
+            ],
+            },
+            {
+            name: 'A08机柜',
+            temperatures: [
+                { position: '后门上', value: 23.3 },
+                { position: '后门中', value: 23.9 },
+                { position: '前门下', value: 24.9 },
+            ],
+            },
+            ]
+        }, 
+        filteredData(index) {
+            if (index !== -1) {
+                const data = this.carbinetserverdata[index].temperatures;
+                const filtered = data
+                    .filter(item => item.position === '后门上' || item.position === '后门中')
+                    .map(item => item.value); 
+                console.log('Filtered Data:', filtered); 
+                return filtered;
+            }
+            return [];
+        },       
+        filteredDataFront(index) {
+            if (index !== -1) {
+                const data = this.carbinetserverdata[index].temperatures;
+                const filtered = data.filter(item => item.position === '前门下');
+                return filtered[0].value;
+            }
+        }
     },
 
 }
@@ -179,6 +290,7 @@ export default{
     height: 100%;
 }
 .carbinet-left-temps {
+    position: relative;
     display: flex;
     justify-content: center;
     background-color:  #b5c5dc ;
@@ -192,6 +304,7 @@ export default{
 
 }
 .carbinet-right-temps{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -204,6 +317,7 @@ export default{
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2)
 }
 .carbinet-left-temp{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -230,13 +344,15 @@ export default{
     z-index: 10;
 }
 .carbinet-kts{
-    width: 80%;
-    height: 90%;
-    margin: 1vw;
+    position: absolute; /* 绝对定位的子元素 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.1)
+    box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: white; /* 背景色以便示例展示 */
 }
 .carbinet-name-left {
     display: flex;
@@ -246,5 +362,13 @@ export default{
     font-weight: 600;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     color: #4DBD65;
+}
+.carbinet-temps-up{
+    position:absolute;
+    margin-top: 40%;
+}
+.carbinet-temps-mid{
+    position:absolute;
+    margin-bottom: 40%;
 }
 </style>
