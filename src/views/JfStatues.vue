@@ -36,7 +36,7 @@ export default {
                 },
                 {
                     class: "ltd-changed",
-                    value: "冷通道波动显示",
+                    value: "温度波动显示",
                     to: "/ltd-changed",
                 },
             ],

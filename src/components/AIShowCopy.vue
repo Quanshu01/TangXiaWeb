@@ -124,9 +124,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
 }
 .display-key-ai{
-    font-size: 0.6rem;
-    font-weight: 600;
-    padding:0.1rem;
+    font-size: 0.7rem;
 }
 .box-card-scroll-1 {
     margin: 0 3%;
@@ -145,9 +143,5 @@ export default {
 .display-value{
     font-size: 0.8rem;
     font-weight: 800;
-}
-.display-key-ai{
-    color:gray;
-    font-size: 0.8rem;
 }
 </style>

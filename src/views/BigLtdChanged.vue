@@ -4,7 +4,7 @@
             <div></div>
             <div class="bigscreen-title-info">
                 <div class="bigscreen-title-name">
-                    冷通道波动显示
+                    温度波动显示
                 </div>
                 <div class="bigscreen-title-text">
                     {{JFname}}机房 服务器机组冷通道各测点温度比前t个时刻波动度数n

@@ -25,7 +25,7 @@ import CarbinetKt from '../components/CarbinetKt'
         return{
           colorList: [ '#303840','#E7E6E6'],
             textcolorList: [ '#d7da9a','#2c3e50'],
-            textsizeList:['1.6rem','1.4rem'],
+            textsizeList:['1rem','1.4rem'],
         }
     },
     computed: {
