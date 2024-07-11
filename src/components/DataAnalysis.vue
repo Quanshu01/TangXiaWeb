@@ -17,28 +17,26 @@ export default {
         'title-top': TitleTop,
     },
     mounted() {
-        this.drawChartInit(analysisData);
+        this.drawChartInit();
     },
     data() {
         return {
-            dataAnalysis: [
-                { recordTime: '1月', ktPower: 310, ITPower: 280, PUE: 1 },
-                { recordTime: '2月', ktPower: 300, ITPower: 270, PUE: 1.2 },
-                { recordTime: '3月', ktPower: 290, ITPower: 260, PUE: 2 },
-                { recordTime: '4月', ktPower: 280, ITPower: 250, PUE: 2.5 },
-                { recordTime: '5月', ktPower: 250, ITPower: 220, PUE: 1.5 },
-                { recordTime: '6月', ktPower: 260, ITPower: 210, PUE: 2 },
-                { recordTime: '7月', ktPower: 270, ITPower: 200, PUE: 1 },
-                { recordTime: '8月', ktPower: 280, ITPower: 180, PUE: 1.8 },
-                { recordTime: '9月', ktPower: 290, ITPower: 150, PUE: 2.7 },
-                { recordTime: '10月', ktPower: 270, ITPower: 160, PUE: 2.4 },
-                { recordTime: '11月', ktPower: 260, ITPower: 110, PUE: 1.9 },
-                { recordTime: '12月', ktPower: 220, ITPower: 120, PUE: 2 }
-            ]
+            dataAnalysis : {
+                "时间": [
+                    "2024-05-01 12:00:00", "2024-05-01 12:05:00", "2024-05-01 12:10:00", "2024-05-01 12:15:00", "2024-05-01 12:20:00",
+                    "2024-05-01 12:25:00", "2024-05-01 12:30:00", "2024-05-01 12:35:00", "2024-05-01 12:40:00", "2024-05-01 12:45:00"
+                ],
+                "制冷能耗": [
+                    300.0, 310.0, 305.0, 320.0, 315.0, 330.0, 325.0, 340.0, 335.0, 350.0
+                ],
+                "it能耗": [
+                    200.0, 210.0, 205.0, 220.0, 215.0, 230.0, 225.0, 240.0, 235.0, 250.0
+                ],
+                "PUE": [
+                    1.5, 1.6, 1.55, 1.7, 1.65, 1.8, 1.75, 1.9, 1.85, 2.0
+                ]
+            }
         };
-    },
-    mounted() {
-        this.drawChartInit();
     },
     methods: {
         drawChartInit() {
@@ -47,10 +45,11 @@ export default {
         drawChart(analysisData) {
             var myChart = this.$echarts.init(this.$refs.chart);
 
-            const xDataArr = analysisData.map(item => item.recordTime);
-            const ktPowerArr = analysisData.map(item => item.ktPower);
-            const itPowerArr = analysisData.map(item => item.ITPower);
-            const pueArr = analysisData.map(item => item.PUE);
+            const xDataArr = analysisData["时间"];
+            const ktPowerArr = analysisData["制冷能耗"];
+            const itPowerArr = analysisData["it能耗"];
+            const pueArr = analysisData["PUE"];
+
 
             myChart.setOption({
                 legend: {
