@@ -6,33 +6,33 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
-            path:'/',
-            name: 'Login',
-            component: () => import( '@/views/HomePage1.vue')
+            path: '/',
+            redirect: '/now-status' 
         },
         {
-            path: '/home',
+            path: '/',
             name: 'HomePage1',
-            component: () => import( '@/views/HomePage1.vue'),
-            meta: {
-                requireAuth: true
-            },
+            component: () => import('@/views/HomePage1.vue'),
             children: [
                 {
-                    path: '/now-status',
+                    path: 'now-status',
                     name: 'now-status',
                     component: () => import('../views/NowStatus.vue')
                 },
                 {
-                    path: '/hotpoint-risk',
+                    path: 'hotpoint-risk',
                     name: 'hotpoint-risk',
                     component: () => import('../views/HotPointRisk.vue')
                 },
                 {
-                    path: '/ltd-changed',
+                    path: 'ltd-changed',
                     name: 'ltd-changed',
-                    component: () => import( '../views/LtdChanged.vue')
+                    component: () => import('../views/LtdChanged.vue')
                 },
+                {
+                    path: '',
+                    redirect: 'now-status'
+                }
             ],
         },
     ]
