@@ -2,38 +2,25 @@
   <div class="ai-command">
     <div class="ai-command-top">
         <title-top name="AI 指令"
-          content="通过 AI群控/预控/保底 下发的AI指令详细信息表格">
+          content="AI指令详细信息表格">
         </title-top>
     </div>
-
     <div class="ai-command-detail">
       <aicommand-detail></aicommand-detail>
     </div>
 
-    <div class="big-ai-command-detail">
-      <el-tooltip class="item" effect="light" content="查看大图" placement="top-start">
-          <el-button size="mini" class="go-big-view" icon="el-icon-zoom-in" @click="moreAIcmd = true"></el-button>
-      </el-tooltip>
-        <el-dialog title="AI指令" :visible.sync="moreAIcmd">
-          <div class="el-dialog-div">
-            <aicommand-select></aicommand-select>
-          </div >
-        </el-dialog>
-    </div>
   </div>
 </template>
 
 <script>
 import TitleTop from '@/components/TitleTop.vue';
 import AICommandDetail from './AICommandDetail.vue';
-import AICommandSelect from './AICommandSelect.vue';
 
 export default {
   name: "AICommand",
     components: {
       'title-top':TitleTop,
       'aicommand-detail':AICommandDetail,
-      'aicommand-select':AICommandSelect,
     },
     data(){
       return{

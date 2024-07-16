@@ -36,16 +36,6 @@ export default {
             aidataKey:[],
             aidataValue:[],
             datatrue1:true,
-            displayStatus:[
-                {
-                    "Content": "AI启停状态",
-                    "Detail": '开启'
-                },
-                {
-                    "Content": "机房状态",
-                    "Detail": '无热点'
-                },
-            ]
         }
     },
     created () {
@@ -53,48 +43,29 @@ export default {
     },
     mounted(){
         this.getaidisplay()
-
-        // this.timer=setInterval(()=>{
-        //     this.getaidisplay()
-        // },2000)
+        this.timer=setInterval(()=>{
+            this.getaidisplay()
+        },2000)
     },
     components: {
         'title-top':TitleTop,
     },
     methods:{
         getaidisplay(){
-            console.log("Display Temp Length:", this.displayStatus.length);
-
-            // 初始化 aidata
-            this.aidata = {};
-            for (let i = 0; i < this.displayStatus.length; i++) {
-                const item = this.displayStatus[i];
-                this.aidata[item.Content] = item.Detail;
-            }
-
-            // 处理 aidataKey 和 aidataValue 的值
-            this.aidataKey = Object.keys(this.aidata);
-            this.aidataValue = Object.values(this.aidata);
-
-            console.log("aidataKey:", this.aidataKey);
-            console.log("aidataValue:", this.aidataValue);
-
-            // 设置 datatrue1 为 true 表示数据已加载
-            this.datatrue1 = true;
-            // axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/aidisplay",
-            // {
-            //     headers:{
-            //         'token':window.sessionStorage.getItem("token")
-            //     },
-            // }).then(
-            //     Response=>{
-            //         this.display = Response.data
-            //         this.displayKey=Object.keys(Response.data)
-            //         this.displayValue=Object.values(Response.data)
-            //     },
-            //     Error=>{
-            //         console.log('axios aidisplay error',Error.message)
-            //     });
+            axios.get(this.global.apiURL+"/703display/status").then(
+                Response=>{
+                    this.aidata = {};
+                    for (let i = 0; i < Response.data.length; i++) {
+                        const item = Response.data[i];
+                        this.aidata[item.Content] = item.Detail;
+                    }
+                    this.aidataKey = Object.keys(this.aidata);
+                    this.aidataValue = Object.values(this.aidata);  
+                    this.datatrue1 = true;
+                },
+                Error=>{
+                    console.log('axios status error',Error.message)
+                });
         },
     },
 }

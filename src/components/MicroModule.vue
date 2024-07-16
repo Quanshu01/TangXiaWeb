@@ -20,7 +20,7 @@
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
-                    <carbinet-kt :values=carbinetktdata[0][0] :ktId=ktId[0]></carbinet-kt>
+                    <carbinet-kt :values=carbinetktdata[0][1] :ktId=ktId[0]></carbinet-kt>
                 </div>
             </div>
             <div class="carbinetNkt">
@@ -28,7 +28,7 @@
                 <div class="carbinet-serve" v-for="(index, n) in displayOrderA" :key="n">
                     <keep-alive>
                         <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name"
-                            :carbinetInfo=carbinetktdata[0][2] :ktId=ktId[0]></carbinet>
+                            :carbinetInfo=carbinetktdata[0][3] :ktId=ktId[0]></carbinet>
                     </keep-alive>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
-                    <carbinet-kt :values=carbinetktdata[0][1] :ktId=ktId[0]></carbinet-kt>
+                    <carbinet-kt :values=carbinetktdata[0][2] :ktId=ktId[0]></carbinet-kt>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
-                    <carbinet-kt :values=carbinetktdata[1][1] :ktId=ktId[1]></carbinet-kt>
+                    <carbinet-kt :values=carbinetktdata[1][2] :ktId=ktId[1]></carbinet-kt>
                 </div>
             </div>
             <div class="carbinetNkt">
@@ -69,7 +69,7 @@
                 <div class="carbinet-serve" v-for="(index, n) in displayOrderB" :key="n">
                     <keep-alive>
                         <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name"
-                            :carbinetInfo=carbinetktdata[1][2] :ktId=ktId[1]></carbinet>
+                            :carbinetInfo=carbinetktdata[1][3] :ktId=ktId[1]></carbinet>
                     </keep-alive>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                     </keep-alive>
                 </div>
                 <div class="carbinet-kts">
-                    <carbinet-kt :values=carbinetktdata[1][0] :ktId=ktId[1]></carbinet-kt>
+                    <carbinet-kt :values=carbinetktdata[1][1] :ktId=ktId[1]></carbinet-kt>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
 import carbinet from './Carbinet.vue'
 import CarbinetTemp from '../components/CarbinetTemp.vue'
 import CarbinetKt from '../components/CarbinetKt'
-
+import axios from 'axios'
 export default{
     data() {
         return {
@@ -111,7 +111,7 @@ export default{
             carbinetNum:2,
             ktId: ["703-1","703-2"],
             carbinetktdata:[],
-            carbintserverdataValues:[],
+            carbinetserverdata:[],
             displayOrderA: [3, 2, -1, 1, 0],
             displayOrderB: [7, 6, -1, 5, 4]
         }
@@ -123,117 +123,31 @@ export default{
     },
     created () {
         this.getcarbinetktdata()
-        this.getcarbintserverdata()
+        this.getcarbinetserverdata()
     },
     mounted(){
         this.getcarbinetktdata()
-        this.getcarbintserverdata()
+        this.getcarbinetserverdata()
     },
     methods:{
 
         getcarbinetktdata(){
-            this.carbinetktdata= [
-                [
-                    {
-                        '回风温度设定':22.50,
-                        '回风温度': 23.00,
-                    },
-                    {
-                        '送风温度设定': 22.50,
-                        '送风温度': 23.00,
-                    },
-                    {
-                        '风机1转速':50,
-                        '风机2转速':95.8,
-                        '压缩机1容量':52,
-                        '压缩机2容量':53
-                    }
-                ],
-                [
-                    {
-                        '回风温度设定': 22.50,
-                        '回风温度': 23.00,
-                    },
-                    {
-                        '送风温度设定': 22.50,
-                        '送风温度': 23.00,
-                    },
-                    {
-                        '风机1转速':50,
-                        '风机2转速':95.8,
-                        '压缩机1容量':52,
-                        '压缩机2容量':53
-                    }
-                ]
-            ]
+            axios.get(this.global.apiURL+"/703display/realtime_kt").then(
+                Response=>{
+                    this.carbinetktdata=Response.data
+                },
+                Error=>{
+                    console.log('axios realtime_kt error',Error.message)
+                });
         },
-        getcarbintserverdata() {
-            this.carbinetserverdata = [
-            {
-            name: 'A01机柜',
-            temperatures: [
-                { position: '后门上', value: 23.3 },
-                { position: '后门中', value: 23.5 },
-                { position: '前门下', value: 23.7 },
-            ],
-            },
-            {
-            name: 'A02机柜',
-            temperatures: [
-                { position: '后门上', value: 23.9 },
-                { position: '后门中', value: 24.1 },
-                { position: '前门下', value: 24.3 },
-            ],
-            },
-            {
-            name: 'A03机柜',
-            temperatures: [
-                { position: '后门上', value: 24.5 },
-                { position: '后门中', value: 24.7 },
-                { position: '前门下', value: 24.9 },
-            ],
-            },
-            {
-            name: 'A04机柜',
-            temperatures: [
-                { position: '后门上', value: 25.1 },
-                { position: '后门中', value: 25.3 },
-                { position: '前门下', value: 23.7 },
-            ],
-            },
-            {
-            name: 'A05机柜',
-            temperatures: [
-                { position: '后门上', value: 23.9 },
-                { position: '后门中', value: 24.1 },
-                { position: '前门下', value: 23.3 },
-            ],
-            },
-            {
-            name: 'A06机柜',
-            temperatures: [
-                { position: '后门上', value: 23.9 },
-                { position: '后门中', value: 24.9 },
-                { position: '前门下', value: 23.9 },
-            ],
-            },
-            {
-            name: 'A07机柜',
-            temperatures: [
-                { position: '后门上', value: 23.3 },
-                { position: '后门中', value: 24.1 },
-                { position: '前门下', value: 24.7 },
-            ],
-            },
-            {
-            name: 'A08机柜',
-            temperatures: [
-                { position: '后门上', value: 23.3 },
-                { position: '后门中', value: 23.9 },
-                { position: '前门下', value: 24.9 },
-            ],
-            },
-            ]
+        getcarbinetserverdata() {
+            axios.get(this.global.apiURL+"/703display/realtime_server").then(
+                Response=>{
+                    this.carbinetserverdata=Response.data
+                },
+                Error=>{
+                    console.log('axios carbinetserverdata error',Error.message)
+                });
         }, 
         filteredData(index) {
             if (index !== -1) {

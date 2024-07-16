@@ -72,12 +72,7 @@ export default {
             clearTimeout(this.timer);
         },
         getjfparamsdata(){
-            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/jfparams",
-            {
-                headers:{
-                    'token':window.sessionStorage.getItem("token")
-                },
-            }).then(
+            axios.get(this.global.apiURL+"/703display/jfdisplay").then(
                 Response=>{
                     var paramsdataTemp = {}
                     for(var i=0;i<Response.data.length;i++){
@@ -114,7 +109,6 @@ export default {
 .sys-txt{
     font-size: 1.1rem;
     -webkit-transform-origin-x: 0;            
-    -webkit-transform: scale(0.90);
     font-weight: 800;
     color:#5C5C5C;
     margin-left:0.8rem;

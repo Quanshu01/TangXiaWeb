@@ -1,10 +1,10 @@
 // const apiURL = "http://192.168.14.110:" // 平安部署对接
 // const apiURL = "http://219.223.193.7:" // 本地大电脑
 // const apiURL = "http://localhost:" // 本地新电脑
-const apiURL = "http://10.113.31.192:" // 本地大电脑后端ip
+const apiURL = "http://10.113.24.19:8703" // 本地大电脑后端ip
  
-const JFname="202" // 默认202机房
-const ports = {'201':'9091','202':'9090','203':'9093','204':'9094','205':'9095'} // 不同机房端口不同，不同机房分别占用一个端口
+const JFname="703" // 默认202机房
+const ports = {'703':'8703'} // 不同机房端口不同，不同机房分别占用一个端口
 const roles = {'normal':'普通用户','operator':'运维人员','root':'超管员'}
 const rolesVarse = {"普通用户":'normal',"运维人员":'operator',"超管员":'root'}
 const warnNum=0

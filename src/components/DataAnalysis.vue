@@ -11,6 +11,7 @@
 
 <script>
 import TitleTop from '@/components/TitleTop.vue';
+import axios from 'axios'
 export default {
     name: "DataAnalysis",
     components: {
@@ -21,33 +22,27 @@ export default {
     },
     data() {
         return {
-            dataAnalysis : {
-                "时间": [
-                    "2024-05-01 12:00:00", "2024-05-01 12:05:00", "2024-05-01 12:10:00", "2024-05-01 12:15:00", "2024-05-01 12:20:00",
-                    "2024-05-01 12:25:00", "2024-05-01 12:30:00", "2024-05-01 12:35:00", "2024-05-01 12:40:00", "2024-05-01 12:45:00"
-                ],
-                "制冷能耗": [
-                    300.0, 310.0, 305.0, 320.0, 315.0, 330.0, 325.0, 340.0, 335.0, 350.0
-                ],
-                "it能耗": [
-                    200.0, 210.0, 205.0, 220.0, 215.0, 230.0, 225.0, 240.0, 235.0, 250.0
-                ],
-                "PUE": [
-                    1.5, 1.6, 1.55, 1.7, 1.65, 1.8, 1.75, 1.9, 1.85, 2.0
-                ]
-            }
+            dataAnalysis:{}
         };
     },
     methods: {
         drawChartInit() {
-            this.drawChart(this.dataAnalysis);
+            axios.get(this.global.apiURL+"/703display/realdata").then(
+                Response=>{
+                    this.dataAnalysis={}
+                    this.dataAnalysis=Response.data
+                    this.drawChart(this.dataAnalysis);
+                },
+                Error=>{
+                    console.log('axios realdata error',Error.message)
+                });
         },
         drawChart(analysisData) {
             var myChart = this.$echarts.init(this.$refs.chart);
 
             const xDataArr = analysisData["时间"];
-            const ktPowerArr = analysisData["制冷能耗"];
-            const itPowerArr = analysisData["it能耗"];
+            const ktPowerArr = analysisData["制冷功率"];
+            const itPowerArr = analysisData["it功率"];
             const pueArr = analysisData["PUE"];
 
 

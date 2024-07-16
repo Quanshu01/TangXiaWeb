@@ -34,24 +34,6 @@ export default {
             aidataKey:[],
             aidataValue:[],
             datatrue1:false,
-            displayTemp:[
-                {
-                    "Content": "冷通道最低温度",
-                    "Detail": 22.40
-                },
-                {
-                    "Content": "冷通道最高温度",
-                    "Detail": 23.90
-                },
-                {
-                    "Content": "热通道最低温度",
-                    "Detail": 25.01
-                },
-                {
-                    "Content": "热通道最高温度",
-                    "Detail": 26.80
-                }
-            ]
         }
     },
     created () {
@@ -69,44 +51,20 @@ export default {
     },
     methods:{
         getaidisplay(){
-            // 初始化 aidata
-            this.aidata = {};
-            for (let i = 0; i < this.displayTemp.length; i++) {
-
-                const item = this.displayTemp[i];
-                this.aidata[item.Content] = item.Detail;
-            }
-
-            // 处理 aidataKey 和 aidataValue 的值
-            this.aidataKey = Object.keys(this.aidata);
-            this.aidataValue = Object.values(this.aidata);
-
-            // 设置 datatrue1 为 true 表示数据已加载
-            this.datatrue1 = true;
-
-
-
-            // this.aidataKey = Object.keys(this.displayTemp);
-            // this.aidataValue = Object.values(this.displayTemp);
-
-            // axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/aipreparams",
-            // {
-            //     headers:{
-            //         'token':window.sessionStorage.getItem("token")
-            //     },
-            // }).then(
-            //     Response=>{
-            //         this.datatrue1 = true
-            //         this.aidata={}
-            //         for(var i=0;i<Response.data.length;i++){
-            //             this.aidata[Response.data[i].Content]=Response.data[i].Detail
-            //         }
-            //         this.aidataKey=Object.keys(this.aidata)
-            //         this.aidataValue=Object.values(this.aidata)
-            // },
-            // Error=>{
-            //     console.log('axios aipreparams error',Error.message)
-            // });
+            axios.get(this.global.apiURL+"/703display/temp").then(
+                Response=>{
+                    this.aidata = {};
+                    for (let i = 0; i < Response.data.length; i++) {
+                        const item = Response.data[i];
+                        this.aidata[item.Content] = item.Detail;
+                    }
+                    this.aidataKey = Object.keys(this.aidata);
+                    this.aidataValue = Object.values(this.aidata);  
+                    this.datatrue1 = true;
+                },
+                Error=>{
+                    console.log('axios temp error',Error.message)
+                });c
         },
     },
 }

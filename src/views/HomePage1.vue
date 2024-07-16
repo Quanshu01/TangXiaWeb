@@ -285,64 +285,75 @@ export default {
             });
         },
         AbnormalLTDMessage() {
-            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/alert",{
-                headers:{
-                    'token':window.sessionStorage.getItem("token")
-                },
-            }).then(
+            console.log("1111111111111111111comein");
+            axios.get(this.global.apiURL+"/703display/alert").then(
                 Response=>{
-                    this.warnTableData=[]
-                    this.nowHotPoint=Response.data['real_hot']
-                    this.abnormalDataWarn = Response.data['data_abnormal_detail']
-                    this.ltdChanged=Response.data['cold_change']
+                     console.log("1111111111111111111comein",Response.data);
+                    this.handleSpeak(this.JF+'机房 出现'+Response.data.length+"个 报警")
 
-                    this.global.warnNum = this.nowHotPoint.length+this.abnormalDataWarn.length+this.ltdChanged.length
-
-                    if(this.global.warnNum){
-                        this.dialogWarnTableVisible=true
-                        if(this.nowHotPoint.length){ //当前机房热点
-                            this.handleSpeak(this.JF+'机房 出现'+this.nowHotPoint.length+"个 真实冷通道热点报警")
-
-                            for(var b=0;b<this.nowHotPoint.length;b++){ // 冷通道波动
+                            for(var b=0;b<Response.data.length.length;b++){ // 冷通道波动
                                 var nowHPTabledata={}
-                                nowHPTabledata['name']='冷通道热点'
+                                console.log("1111111111111111111",this.nowHPTabledata);
                                 nowHPTabledata['num']=b+1
-                                nowHPTabledata['id']=this.nowHotPoint[b][0]
-                                nowHPTabledata['content']=this.nowHotPoint[b][3]
-                                nowHPTabledata['server']=this.nowHotPoint[b][2]
-                                nowHPTabledata['time']=this.nowHotPoint[b][1]
+                                nowHPTabledata['content']=this.nowHotPoint[b][2]
+                                nowHPTabledata['server']=this.nowHotPoint[b][1]
+                                nowHPTabledata['time']=this.nowHotPoint[b][0]
+                                console.log("11111111111111111112222",this.nowHPTabledata);
                                 this.warnTableData.push(nowHPTabledata)
                             }
-                        }
-                        if(this.abnormalDataWarn.length){ //数据异常热点
-                            this.handleSpeak(this.JF+'机房 出现'+this.abnormalDataWarn.length+"个 数据异常报警,")
-                            for(b=0;b<this.abnormalDataWarn.length;b++){ // 冷通道预测热点
-                                var abnormalData={}
-                                abnormalData['name']='数据异常'
-                                abnormalData['num']=b+1
-                                abnormalData['content']=this.abnormalDataWarn[b][2]
-                                abnormalData['server']='-'
-                                abnormalData['time']=this.abnormalDataWarn[b][0]
-                                this.warnTableData.push(abnormalData)
-                            }
-                        }
-                        if(this.ltdChanged.length){ // 语音播报冷通道波动出现报警个数
-                            this.handleSpeak(this.JF+'机房 出现'+this.ltdChanged.length+"个 冷通道波动报警")
-                            if(this.num && this.time){
-                                this.handleSpeak("报警阈值是"+this.num+"度，报警时间是"+this.time+"分钟")
-                            }
-                            for(var i=0;i<this.ltdChanged.length;i++){ // 冷通道波动
-                                var changedTabledata={}
-                                changedTabledata['name']='冷通道波动'
-                                changedTabledata['id']=this.ltdChanged[i][0]
-                                changedTabledata['num']=i+1
-                                changedTabledata['content']=this.ltdChanged[i][3]
-                                changedTabledata['server']=this.ltdChanged[i][2]
-                                changedTabledata['time']=this.ltdChanged[i][1]
-                                this.warnTableData.push(changedTabledata)
-                            }
-                        }
-                    }
+
+                    // this.warnTableData=[]
+                    // this.nowHotPoint=Response.data['real_hot']
+                    // this.abnormalDataWarn = Response.data['data_abnormal_detail']
+                    // this.ltdChanged=Response.data['cold_change']
+
+                    // this.global.warnNum = this.nowHotPoint.length+this.abnormalDataWarn.length+this.ltdChanged.length
+
+                    // if(this.global.warnNum){
+                    //     this.dialogWarnTableVisible=true
+                    //     if(this.nowHotPoint.length){ //当前机房热点
+                    //         this.handleSpeak(this.JF+'机房 出现'+this.nowHotPoint.length+"个 真实冷通道热点报警")
+
+                    //         for(var b=0;b<this.nowHotPoint.length;b++){ // 冷通道波动
+                    //             var nowHPTabledata={}
+                    //             nowHPTabledata['name']='冷通道热点'
+                    //             nowHPTabledata['num']=b+1
+                    //             nowHPTabledata['id']=this.nowHotPoint[b][0]
+                    //             nowHPTabledata['content']=this.nowHotPoint[b][3]
+                    //             nowHPTabledata['server']=this.nowHotPoint[b][2]
+                    //             nowHPTabledata['time']=this.nowHotPoint[b][1]
+                    //             this.warnTableData.push(nowHPTabledata)
+                    //         }
+                    //     }
+                    //     if(this.abnormalDataWarn.length){ //数据异常热点
+                    //         this.handleSpeak(this.JF+'机房 出现'+this.abnormalDataWarn.length+"个 数据异常报警,")
+                    //         for(b=0;b<this.abnormalDataWarn.length;b++){ // 冷通道预测热点
+                    //             var abnormalData={}
+                    //             abnormalData['name']='数据异常'
+                    //             abnormalData['num']=b+1
+                    //             abnormalData['content']=this.abnormalDataWarn[b][2]
+                    //             abnormalData['server']='-'
+                    //             abnormalData['time']=this.abnormalDataWarn[b][0]
+                    //             this.warnTableData.push(abnormalData)
+                    //         }
+                    //     }
+                    //     if(this.ltdChanged.length){ // 语音播报冷通道波动出现报警个数
+                    //         this.handleSpeak(this.JF+'机房 出现'+this.ltdChanged.length+"个 冷通道波动报警")
+                    //         if(this.num && this.time){
+                    //             this.handleSpeak("报警阈值是"+this.num+"度，报警时间是"+this.time+"分钟")
+                    //         }
+                    //         for(var i=0;i<this.ltdChanged.length;i++){ // 冷通道波动
+                    //             var changedTabledata={}
+                    //             changedTabledata['name']='冷通道波动'
+                    //             changedTabledata['id']=this.ltdChanged[i][0]
+                    //             changedTabledata['num']=i+1
+                    //             changedTabledata['content']=this.ltdChanged[i][3]
+                    //             changedTabledata['server']=this.ltdChanged[i][2]
+                    //             changedTabledata['time']=this.ltdChanged[i][1]
+                    //             this.warnTableData.push(changedTabledata)
+                    //         }
+                    //     }
+                    // }
                 },
                 Error=>{
                     console.log(this.JFname+' JF dont get! - ',Response.message)
