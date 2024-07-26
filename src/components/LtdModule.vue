@@ -8,27 +8,27 @@
                         <!--后门上-->
                         <el-tooltip class="item" effect="light" content="后门上" placement="top-start">
                             <carbinet-temp class="carbinet-temps-up" v-if="index!==-1"
-                                :carbinetdData="filteredData(displayOrderA[n])[0]" :type="0"></carbinet-temp>
+                                :carbinetdData="filteredData(displayOrderA[n])[0]" :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                     <keep-alive>
                         <!--后门中-->
                         <el-tooltip class="item" effect="light" content="后门中" placement="top-start">
                             <carbinet-temp class="carbinet-temps-mid" v-if="index!==-1"
-                                :carbinetdData="filteredData(displayOrderA[n])[1]" :type="0"></carbinet-temp>
+                                :carbinetdData="filteredData(displayOrderA[n])[1]" :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                 </div>
-                <div class="carbinet-kts">
+                <!-- <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[0][1] :ktId=ktId[0]></carbinet-kt>
-                </div>
+                </div> -->
             </div>
             <div class="carbinetNkt">
                 <!-- <div class="carbinet-name-left">A</div> -->
                 <div class="carbinet-serve" v-for="(index, n) in displayOrderA" :key="n">
                     <keep-alive>
                         <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name"
-                            :carbinetInfo=carbinetktdata[0][3] :ktId=ktId[0]></carbinet>
+                             :ktId=ktId[0]></carbinet>
                     </keep-alive>
                 </div>
             </div>
@@ -37,13 +37,13 @@
                     <keep-alive>
                         <el-tooltip effect="light" content="前门下" placement="top-start">
                             <carbinet-temp v-if="index!==-1" :carbinetdData="filteredDataFront(displayOrderA[n])"
-                                :type="0"></carbinet-temp>
+                                :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                 </div>
-                <div class="carbinet-kts">
+                <!-- <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[0][2] :ktId=ktId[0]></carbinet-kt>
-                </div>
+                </div> -->
             </div>
 
             <!-- 冷通道-->
@@ -56,20 +56,20 @@
                     <keep-alive>
                         <el-tooltip effect="light" content="前门下" placement="top-start">
                             <carbinet-temp v-if="index!==-1" :carbinetdData="filteredDataFront(displayOrderB[n])"
-                                :type="0"></carbinet-temp>
+                                :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                 </div>
-                <div class="carbinet-kts">
+                <!-- <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[1][2] :ktId=ktId[1]></carbinet-kt>
-                </div>
+                </div> -->
             </div>
             <div class="carbinetNkt">
                 <!-- <div class="carbinet-name-left">B</div> -->
                 <div class="carbinet-serve" v-for="(index, n) in displayOrderB" :key="n">
                     <keep-alive>
                         <carbinet :carbinetId="index === -1 ? '空调' : carbinetserverdata[index].name"
-                            :carbinetInfo=carbinetktdata[1][3] :ktId=ktId[1]></carbinet>
+                             :ktId=ktId[1]></carbinet>
                     </keep-alive>
                 </div>
             </div>
@@ -79,20 +79,20 @@
                         <!--后门上-->
                         <el-tooltip effect="light" content="后门上" placement="top-start">
                             <carbinet-temp class="carbinet-temps-up" v-if="index!==-1"
-                                :carbinetdData="filteredData(displayOrderB[n])[0]" :type="0"></carbinet-temp>
+                                :carbinetdData="filteredData(displayOrderB[n])[0]" :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                     <keep-alive>
                         <!--后门中-->
                         <el-tooltip effect="light" content="后门中" placement="top-start">
                             <carbinet-temp class="carbinet-temps-mid" v-if="index!==-1"
-                                :carbinetdData="filteredData(displayOrderB[n])[1]" :type="0"></carbinet-temp>
+                                :carbinetdData="filteredData(displayOrderB[n])[1]" :type="1"></carbinet-temp>
                         </el-tooltip>
                     </keep-alive>
                 </div>
-                <div class="carbinet-kts">
+                <!-- <div class="carbinet-kts">
                     <carbinet-kt :values=carbinetktdata[1][1] :ktId=ktId[1]></carbinet-kt>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -141,21 +141,20 @@ export default{
                 });
         },
         getcarbinetserverdata() {
-            axios.get(this.global.apiURL+"/703display/realtime_server").then(
+            axios.get(this.global.apiURL+"/703display/cold_change").then(
                 Response=>{
                     // 对Response.data按照机柜名称进行排序
                     this.carbinetserverdata = Response.data.sort((a, b) => {
-                        const nameA = a.name.toUpperCase(); // 将名称转换为大写以进行不区分大小写的排序
-                        const nameB = b.name.toUpperCase();
-                        if (nameA < nameB) {
-                        return -1;
-                        }
-                        if (nameA > nameB) {
-                        return 1;
-                        }
-                        return 0;
+                    const nameA = a.name.toUpperCase(); // 将名称转换为大写以进行不区分大小写的排序
+                    const nameB = b.name.toUpperCase();
+                    if (nameA < nameB) {
+                    return -1;
+                    }
+                    if (nameA > nameB) {
+                    return 1;
+                    }
+                    return 0;
                     });
-                    console.log(11111,this.carbinetserverdata);
                 },
                 Error=>{
                     console.log('axios carbinetserverdata error',Error.message)
@@ -163,19 +162,19 @@ export default{
         }, 
         filteredData(index) {
             if (index !== -1) {
-                const data = this.carbinetserverdata[index].temperatures;
+                const data = this.carbinetserverdata[index].gap;
                 const filtered = data
-                    .filter(item => item.position === '后门上' || item.position === '后门中')
-                    .map(item => item.value); 
+                    .filter(item => item.pointname === '后门上' || item.pointname === '后门中')
+                    .map(item => item.value.toFixed(2)) 
                 return filtered;
             }
             return [];
         },       
         filteredDataFront(index) {
             if (index !== -1) {
-                const data = this.carbinetserverdata[index].temperatures;
-                const filtered = data.filter(item => item.position === '前门下');
-                return filtered[0].value;
+                const data = this.carbinetserverdata[index].gap;
+                const filtered = data.filter(item => item.pointname === '前门下');
+                return filtered[0].value.toFixed(2);
             }
         }
     },

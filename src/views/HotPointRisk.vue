@@ -1,116 +1,89 @@
 <template>
-    <div class="hotpoint-risk">
-        <div class="hot-fwdNkt">
-            <div class="hot-fwqs">
-                <div class="hot-fwq" v-for="n in JF.length" :key="n.index">
-                    <KeepAlive>
-                        <hot-fwq :fwqId="n" :ifBig="false" :hotpointriskall="hotpointriskall"></hot-fwq>
-                    </KeepAlive>
-                </div>
-            </div>
-            <div class="hot-contents">
-                <div class="one-content-hot-s">
-                    <div class="content-pic-hot-s" style="background-color:#67C23A;"></div>
-                    <div class="content-text-hot-s" style="color:#67C23A;">热点低风险区</div>
-                </div>
-                <div class="one-content-hot-s">
-                    <div class="content-pic-hot-s" style="background-color:#E6A23C;"></div>
-                    <div class="content-text-hot-s" style="color:#E6A23C;">热点中风险区</div>
-                </div>
-                <div class="one-content-hot-s">
-                    <div class="content-pic-hot-s" style="background-color:#F56C6C;"></div>
-                    <div class="content-text-hot-s" style="color:#F56C6C;">热点高风险区</div>
-                </div>
-                <div class="one-content-hot-s">
-                    <div class="content-pic-hot-s" style="background-color:#0F1114;"></div>
-                    <div class="content-text-hot-s" style="color:#0F1114;">弃用冷通道测点</div>
-                </div>
-                <div class="one-content-hot-s">
-                    <el-tooltip class="item" effect="light" content="查看大图" placement="top-start">
-                        <el-button size="mini" class="go-big-view" icon="el-icon-zoom-in" @click="goBigHotPointRisk"></el-button>
-                    </el-tooltip>
+    <div class="ltd-changed">
+        <div class="hot-contents">
+            <div class="content-pic-hot-s" style="background-color:#67C23A;"></div>
+            <div class="content-text-hot-s" style="color:#67C23A;">热点低风险区</div>
+            <div class="content-pic-hot-s" style="background-color:#E6A23C;"></div>
+            <div class="content-text-hot-s" style="color:#E6A23C;">热点中风险区</div>
+            <div class="content-pic-hot-s" style="background-color:#F56C6C;"></div>
+            <div class="content-text-hot-s" style="color:#F56C6C;">热点高风险区</div>
+            <div class="content-pic-hot-s" style="background-color:#0F1114;"></div>
+            <div class="content-text-hot-s" style="color:#0F1114;">弃用冷通道测点</div>
+        </div>
+        <div class="ltd-changed-inside">
+            <div class="fwdNkt">
+                <div class="now-fwqs">
+                    <ltd-module />
                 </div>
             </div>
         </div>
     </div>
-</template>
+</template>c
 
 <script>
-import axios from 'axios';
-import HotFwq from '@/components/HotFwq.vue';
-import BigHotPointRisk from './BigHotPointRisk.vue';
+import LtdModule from '@/components/LtdModule.vue'
+
 export default {
-    name: "HotPointRisk",
-    metaInfo: {
-        requiresAuth: true // 表示这个页面需要认证
-    },
     data() {
         return {
-            timer:"",
-            JF:[],
-            hotpointriskall:[],
         }
     },
     components:{
-        'hot-fwq':HotFwq
+        'ltd-module':LtdModule
     },
     created () {
-        this.gethotpointrisk()
     },
     mounted(){
-        this.gethotpointrisk()
-
-        this.timer=setInterval(()=>{
-            this.gethotpointrisk()
-        },70743)
     },
     methods:{
-        gethotpointrisk(){
-            axios.get(this.global.apiURL+this.global.ports[this.JFname]+"/getData/"+this.JFname+"/riskdatanew0216",{
-                headers:{
-                    'token':window.sessionStorage.getItem("token")
-                },
-            }).then(
-            Response=>{
-                // console.log('axios riskdatanew0216',Response.data)
-                this.hotpointriskall=[]
-                for(var i=0;i<this.fwqlist.length;i++){
-                    var fwqTop = Response.data[0][this.fwqlist[i]]['up']
-                    var fwqBottom = Response.data[0][this.fwqlist[i]]['down']
-                    this.hotpointriskall.push([Object.values(fwqTop),Object.values(fwqBottom)])
-                }
-            },
-            Error=>{
-                console.log('axios riskdatanew0216 error',Error)
-            });
-        },
-        goBigHotPointRisk(){
-            this.$FModal.show(
-                { 
-                    component: BigHotPointRisk,
-                    maxHeight: '100%',
-                    width: '96%', 
-                    height:'100%',
-                    placement: 'center center'  
-                },
-            )
-        },
-        
     },
 }
 </script>
 
 <style>
-.hotpoint-risk{
+.ltd-changed{
     width:100%;
     height:98%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+.hot-contents{
+    position: absolute; /* 绝对定位的子元素 */
+    top:2%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.ltd-changed-inside{
+    width:100%;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.change-value0{
+    width:100%;
+    height: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.change-value{
+    width:100%;
+    height: 10%;
+    display: flex;
+}
+.windowTitle{
+    width:2rem
+}
+.change-params{
+    font-size: 0.8rem;
 }
 .hot-fwdNkt{
     width:100%;
-    height: 96%;
+    height: 90%;
     display: flex;
 }
 .hot-fwqs{
@@ -129,12 +102,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.hot-contents{
-    width:10%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
+
 .extend-fwqNkt{
     width:5%;
     height: 100%;
@@ -162,5 +130,23 @@ export default {
 .content-text-hot-s{
     font-size: 0.6rem;
     font-weight: 900;
+    margin-right: 12px;
+}
+.fwdNkt{
+    width: 100%;
+    height: 100%;
+}
+.go-big-view{
+    margin:0.1rem;
+    height:1.3rem;
+    width:1.3rem;
+    padding:0.2rem;
+}
+.now-fwqs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:98%;
+    height: 96%;
 }
 </style>

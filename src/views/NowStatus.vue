@@ -2,7 +2,7 @@
     <div class="now-status">
         <div class="fwdNkt">
             <div class="now-fwqs">
-                    <micro-module></micro-module>
+                <micro-module></micro-module>
             </div>
         </div>
     </div>
@@ -10,7 +10,7 @@
 
 <script>
 // import CarbinetFwq from '../components/CarbinetFwq.vue';
-import BigNowStatus from './BigNowStatus.vue';
+// import BigNowStatus from './BigNowStatus.vue';
 import MicroModule from '../components/MicroModule.vue'
 
 export default {
