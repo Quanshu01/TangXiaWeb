@@ -30,11 +30,6 @@ export default {
                     to: "/now-status",
                 },
                 {
-                    class: "hotpoint-risk",
-                    value: "热点风险显示",
-                    to: "/hotpoint-risk",
-                },
-                {
                     class: "ltd-changed",
                     value: "温度波动显示",
                     to: "/ltd-changed",
