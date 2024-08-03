@@ -155,7 +155,6 @@ export default{
                         }
                         return 0;
                     });
-                    console.log(11111,this.carbinetserverdata);
                 },
                 Error=>{
                     console.log('axios carbinetserverdata error',Error.message)

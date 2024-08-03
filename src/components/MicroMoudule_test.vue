@@ -193,8 +193,6 @@ export default{
             }
             this.carbinetBackNum = Object.keys(this.carbinetBack).length;
             this.carbinetFrontNum = Object.keys(this.carbinetFront).length;
-
-            console.log(11111111,this.carbinetBack);
         }, 
     },
 

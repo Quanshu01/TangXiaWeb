@@ -27,25 +27,18 @@
                                 width="50">
                             </el-table-column>
                             <el-table-column
-                                prop="name"
-                                label="报警项"
-                                width="80"
-                                :filter-method="filterTag"
-                                :filters="[{ text: '冷通道热点', value: '冷通道热点' }, { text: '数据异常', value: '数据异常' }, { text: '冷通道波动', value: '冷通道波动' }]">
-                            </el-table-column>
-                            <el-table-column
                                 prop="server"
-                                label="服务器"
-                                width="80">
+                                label="报警位置"
+                                width="160">
                             </el-table-column>
                             <el-table-column
                                 prop="content"
-                                label="报警内容"
+                                label="报警温度"
                                 >
                             </el-table-column>
                             <el-table-column
                                 prop="time"
-                                label="时间"
+                                label="报警时间"
                                 width="200"
                                 show-overflow-tooltip>
                             </el-table-column>
@@ -285,20 +278,16 @@ export default {
             });
         },
         AbnormalLTDMessage() {
-            console.log("1111111111111111111comein");
             axios.get(this.global.apiURL+"/703display/alert").then(
                 Response=>{
-                     console.log("1111111111111111111comein",Response.data);
                     this.handleSpeak(this.JF+'机房 出现'+Response.data.length+"个 报警")
-
-                            for(var b=0;b<Response.data.length.length;b++){ // 冷通道波动
+                    this.global.warnNum = Response.data.length
+                            for(var b=0;b<Response.data.length;b++){ // 冷通道波动
                                 var nowHPTabledata={}
-                                console.log("1111111111111111111",this.nowHPTabledata);
                                 nowHPTabledata['num']=b+1
-                                nowHPTabledata['content']=this.nowHotPoint[b][2]
-                                nowHPTabledata['server']=this.nowHotPoint[b][1]
-                                nowHPTabledata['time']=this.nowHotPoint[b][0]
-                                console.log("11111111111111111112222",this.nowHPTabledata);
+                                nowHPTabledata['content']=Response.data[2]['温度']
+                                nowHPTabledata['server']=Response.data[1]['位置']
+                                nowHPTabledata['time']=Response.data[0]['时间']
                                 this.warnTableData.push(nowHPTabledata)
                             }
 
